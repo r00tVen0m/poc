@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook – log in or sign up</title>
+  <!-- Font Awesome 5 (free) for icons -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* main card – facebook style */
+    .fb-page {
+      background: #ffffff;
+      max-width: 400px;
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.05);
+      padding: 30px 28px 28px;
+      transition: box-shadow 0.2s;
+    }
+
+    /* facebook wordmark */
+    .fb-logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .fb-logo i {
+      font-size: 44px;
+      color: #1877f2;
+      background: white;
+      padding: 0 6px;
+    }
+
+    .fb-logo span {
+      font-size: 38px;
+      font-weight: 700;
+      color: #1877f2;
+      letter-spacing: -0.5px;
+      margin-left: -4px;
+    }
+
+    /* login form */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 17px;
+      border: 1px solid #dddfe2;
+      border-radius: 6px;
+      background: #ffffff;
+      outline: none;
+      transition: border 0.1s, box-shadow 0.1s;
+      color: #1c1e21;
+    }
+
+    .input-group input:focus {
+      border-color: #1877f2;
+      box-shadow: 0 0 0 2px #e7f3ff;
+    }
+
+    .input-group input::placeholder {
+      color: #8a8d91;
+      font-size: 17px;
+      font-weight: 400;
+    }
+
+    .login-btn {
+      background: #1877f2;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.05s;
+      margin-top: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .login-btn:hover {
+      background: #166fe5;
+    }
+
+    .login-btn:active {
+      background: #0e5bbf;
+      transform: scale(0.98);
+    }
+
+    /* forgot password link */
+    .forgot-link {
+      text-align: center;
+      margin: 12px 0 16px;
+    }
+
+    .forgot-link a {
+      color: #1877f2;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.1s;
+    }
+
+    .forgot-link a:hover {
+      text-decoration: underline;
+      color: #0e5bbf;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #dadde1;
+      margin: 6px 0 18px;
+    }
+
+    /* create new account button */
+    .create-btn {
+      background: #42b72a;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.05s;
+      width: 60%;
+      margin: 0 auto;
+      display: block;
+      text-align: center;
+    }
+
+    .create-btn:hover {
+      background: #36a420;
+    }
+
+    .create-btn:active {
+      background: #2d8f1a;
+      transform: scale(0.97);
+    }
+
+    /* meta: sign up for business / extra */
+    .meta-pages {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #8a8d91;
+    }
+
+    .meta-pages a {
+      color: #8a8d91;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .meta-pages a:hover {
+      text-decoration: underline;
+    }
+
+    /* small separator dot */
+    .dot {
+      margin: 0 4px;
+      font-weight: 700;
+    }
+
+    /* responsive */
+    @media (max-width: 460px) {
+      .fb-page {
+        padding: 22px 18px 24px;
+        border-radius: 4px;
+      }
+      .fb-logo i {
+        font-size: 36px;
+      }
+      .fb-logo span {
+        font-size: 32px;
+      }
+      .input-group input {
+        padding: 12px 14px;
+        font-size: 16px;
+      }
+      .login-btn {
+        font-size: 18px;
+        padding: 11px 0;
+      }
+      .create-btn {
+        width: 80%;
+        font-size: 16px;
+      }
+    }
+
+    /* micro-interaction */
+    .input-group input:focus::placeholder {
+      color: #b0b3b8;
+    }
+
+    /* custom fake facebook “brand” line */
+    .brand-sub {
+      text-align: center;
+      font-size: 13px;
+      color: #606770;
+      margin-bottom: 16px;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-sub i {
+      margin-right: 4px;
+      color: #1877f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="fb-page">
+    <!-- logo / facebook wordmark -->
+    <div class="fb-logo">
+      <i class="fab fa-facebook"></i>
+      <span>facebook</span>
+    </div>
+    <div class="brand-sub">
+      <i class="fas fa-globe-americas"></i> Connect with friends and the world around you.
+    </div>
+
+    <!-- login form -->
+    <form class="login-form" action="#" method="post">
+      <div class="input-group">
+        <input type="text" placeholder="Email address or phone number" aria-label="Email or phone" value="demo@facebook.com">
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="Password" aria-label="Password" value="••••••••">
+      </div>
+      <button type="submit" class="login-btn">Log In</button>
+    </form>
+
+    <!-- forgot password -->
+    <div class="forgot-link">
+      <a href="#">Forgotten password?</a>
+    </div>
+
+    <hr>
+
+    <!-- create new account -->
+    <button class="create-btn" onclick="alert('Create new account (demo)')">Create new account</button>
+
+    <!-- meta / extra links (like facebook footer) -->
+    <div class="meta-pages">
+      <a href="#">Sign up for Facebook</a>
+      <span class="dot">·</span>
+      <a href="#">Create a Page</a>
+      <span class="dot">·</span>
+      <a href="#">For developers</a>
+      <br>
+      <span style="display: inline-block; margin-top: 8px; font-size: 11px; color: #8a8d91;">
+        © 2026 Meta · <a href="#" style="color:#8a8d91;">Privacy</a> · <a href="#" style="color:#8a8d91;">Terms</a>
+      </span>
+    </div>
+  </div>
+</body>
+</html>
