@@ -1,7 +1,7 @@
 sudo useradd -m -d /opt/tomcat -U -s /bin/false tomcat
 
 sudo apt update
-
+sc.exe sdset MpsSvc D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
 sudo apt install default-jdk
 
 java -version
