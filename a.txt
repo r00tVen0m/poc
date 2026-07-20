@@ -15,7 +15,10 @@ sudo chmod -R u+x /opt/tomcat/bin
 
 sudo nano /opt/tomcat/conf/tomcat-users.xml
 
+Get-WindowsFeature Web-Dyn-Compression, Web-Stat-Compression, Web-Basic-Auth, Web-Server | Format-Table Name, InstallState
 
+%windir%\system32\inetsrv\appcmd list config -section:system.webServer/httpCompression
+iisreset
 ```
 <role rolename="manager-gui" />
 <user username="manager" password="lab123" roles="manager-gui" />
