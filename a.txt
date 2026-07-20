@@ -1,4 +1,4 @@
-
+Install-WindowsFeature Server-Gui-Mgmt-Infra, Server-Gui-Shell -Source wim:E:\sources\install.wim:2 -Restart
 Install-WindowsFeature Server-Gui-Mgmt-Infra, Server-Gui-Shell -Source wim:D:\sources\install.wim:<index> -Restart
 
 dism /Get-WimInfo /WimFile:D:\sources\install.wim
