@@ -1,3 +1,11 @@
+
+Install-WindowsFeature Server-Gui-Mgmt-Infra, Server-Gui-Shell -Source wim:D:\sources\install.wim:<index> -Restart
+
+dism /Get-WimInfo /WimFile:D:\sources\install.wim
+
+
+
+
 sudo useradd -m -d /opt/tomcat -U -s /bin/false tomcat
 Setup.exe /Mode:Install /Role:Mailbox /IAcceptExchangeServerLicenseTerms /InstallWindowsComponents
 E:\Setup.exe /IAcceptExchangeServerLicenseTerms_DiagnosticDataOFF /InstallWindowsComponents
