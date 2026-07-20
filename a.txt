@@ -1,4 +1,4 @@
-
+(Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').InstallationType
 Get-WindowsFeature Server-Gui-Mgmt-Infra
 
 Install VC++ 2013 Redistributable (x64): https://www.microsoft.com/download/details.aspx?id=40784
