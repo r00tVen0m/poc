@@ -1,3 +1,6 @@
+
+Get-WindowsFeature Server-Gui-Mgmt-Infra
+
 Install VC++ 2013 Redistributable (x64): https://www.microsoft.com/download/details.aspx?id=40784
 Install UCMA 4.0 Core Runtime (x64): http://go.microsoft.com/fwlink/?LinkId=260990
 Use Exchange 2016 CU23 media (not RTM/older CU) so Server 2019 is recognized as supported.
