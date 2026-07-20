@@ -2,6 +2,9 @@ Setup.exe /PrepareAD /IAcceptExchangeServerLicenseTerms
 Setup.exe /Mode:Install /Role:Mailbox /IAcceptExchangeServerLicenseTerms
 Get-Item ".\setup.exe" | Select-Object VersionInfo | Format-List
 
+
+https://www.microsoft.com/en-us/download/details.aspx?id=51775
+
 (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').InstallationType
 Get-WindowsFeature Server-Gui-Mgmt-Infra
 
