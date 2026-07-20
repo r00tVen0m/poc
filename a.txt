@@ -1,4 +1,5 @@
-
+Setup.exe /PrepareAD /IAcceptExchangeServerLicenseTerms
+Setup.exe /Mode:Install /Role:Mailbox /IAcceptExchangeServerLicenseTerms
 Get-Item ".\setup.exe" | Select-Object VersionInfo | Format-List
 
 (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion').InstallationType
