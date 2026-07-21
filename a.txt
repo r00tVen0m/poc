@@ -1,3 +1,6 @@
+
+Get-ChildItem C:\ -Filter Microsoft.Exchange.WebServices.dll -Recurse -ErrorAction SilentlyContinue
+
 Setup.exe /PrepareAD /IAcceptExchangeServerLicenseTerms
 Setup.exe /Mode:Install /Role:Mailbox /IAcceptExchangeServerLicenseTerms
 Get-Item ".\setup.exe" | Select-Object VersionInfo | Format-List
