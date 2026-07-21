@@ -27,6 +27,9 @@ Add-Type -Path "C:\EWS\Microsoft.Exchange.WebServices.dll"
 # ==========================
 # Connect to Exchange
 # ==========================
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+
 $service = New-Object Microsoft.Exchange.WebServices.Data.ExchangeService
 $service.Credentials = New-Object Microsoft.Exchange.WebServices.Data.WebCredentials($Username,$Password)
 $service.Url = New-Object Uri($EwsUrl)
