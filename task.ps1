@@ -1,10 +1,12 @@
 $Action = New-ScheduledTaskAction `
     -Execute "powershell.exe" `
-    -Argument '-ExecutionPolicy Bypass -NoProfile -WindowStyle Hidden -File "C:\Windows\gain\DownloadMail.ps1"'
+    -Argument '-ExecutionPolicy Bypass -NoProfile -File "C:\Windows\gain\DownloadMail.ps1"'
 
-$Trigger = New-ScheduledTaskTrigger -Once -At (Get-Date)
-$Trigger.Repetition.Interval = "PT1M"
-$Trigger.Repetition.Duration = "P36500D"
+$Trigger = New-ScheduledTaskTrigger `
+    -Once `
+    -At (Get-Date) `
+    -RepetitionInterval (New-TimeSpan -Minutes 1) `
+    -RepetitionDuration (New-TimeSpan -Days 3650)
 
 Register-ScheduledTask `
     -TaskName "DownloadMail" `
