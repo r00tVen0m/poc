@@ -1,3 +1,13 @@
+
+Unregister-PSSessionConfiguration -Name "Mail-JEA" -Force -ErrorAction SilentlyContinue
+Remove-Item -Path "C:\Program Files\WindowsPowerShell\Modules\MailJEA" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path "C:\JEAConfig" -Recurse -Force -ErrorAction SilentlyContinue
+Restart-Service WinRM
+
+Write-Host "Mail-JEA endpoint removed successfully."
+Get-PSSessionConfiguration | Select-Object Name, Enabled
+
+
 # =====================================================================
 # Setup-MailJEA.ps1
 # Configure JEA Endpoint for ASTERA\andrew.allen
