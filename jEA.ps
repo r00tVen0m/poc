@@ -8,6 +8,75 @@ Write-Host "Mail-JEA endpoint removed successfully."
 Get-PSSessionConfiguration | Select-Object Name, Enabled
 
 
+
+# =====================================================================
+# Configure JEA Endpoint for ASTERA\andrew.allen
+# =====================================================================
+
+# Run as Administrator
+
+Enable-PSRemoting -Force
+
+$ModuleName = "MailJEA"
+$ModulePath = "C:\Program Files\WindowsPowerShell\Modules\$ModuleName"
+$RolePath   = Join-Path $ModulePath "RoleCapabilities"
+$ConfigPath = "C:\JEAConfig"
+
+# Create directories
+New-Item -ItemType Directory -Path $RolePath -Force | Out-Null
+New-Item -ItemType Directory -Path $ConfigPath -Force | Out-Null
+
+# Create Role Capability
+New-PSRoleCapabilityFile `
+    -Path "$RolePath\MailRole.psrc" `
+    -VisibleCmdlets @(
+        'Get-Command',
+        'Get-Help',
+        'Get-Process',
+        'Get-Service',
+        'Test-Connection',
+        'ipconfig'
+    ) `
+    -VisibleFunctions @() `
+    -VisibleAliases @()
+
+# Create module manifest
+New-ModuleManifest `
+    -Path "$ModulePath\MailJEA.psd1" `
+    -RootModule "" `
+    -ModuleVersion "1.0"
+
+# Create Session Configuration
+New-PSSessionConfigurationFile `
+    -Path "$ConfigPath\MailJEA.pssc" `
+    -SessionType RestrictedRemoteServer `
+    -LanguageMode ConstrainedLanguage `
+    -RunAsVirtualAccount `
+    -RoleDefinitions @{
+        'ASTERA\andrew.allen' = @{
+            RoleCapabilities = 'MailRole'
+        }
+    }
+
+# Register Endpoint
+if (Get-PSSessionConfiguration -Name MailJEA -ErrorAction SilentlyContinue) {
+    Unregister-PSSessionConfiguration -Name MailJEA -Force
+}
+
+Register-PSSessionConfiguration `
+    -Name MailJEA `
+    -Path "$ConfigPath\MailJEA.pssc" `
+    -Force
+
+Restart-Service WinRM
+
+Write-Host ""
+Write-Host "JEA Endpoint created successfully."
+Write-Host ""
+Write-Host "Connect using:"
+Write-Host "Enter-PSSession -ComputerName <SERVER> -ConfigurationName MailJEA -Credential ASTERA\andrew.allen"
+
+
 # =====================================================================
 # Setup-MailJEA.ps1
 # Configure JEA Endpoint for ASTERA\andrew.allen
