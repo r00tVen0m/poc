@@ -1,0 +1,76 @@
+# =====================================================================
+# Setup-MailJEA.ps1
+# Configure JEA Endpoint for ASTERA\andrew.allen
+# =====================================================================
+
+# Run as Administrator
+Enable-PSRemoting -Force
+$ModuleName = "MailJEA"
+$ModulePath = "C:\Program Files\WindowsPowerShell\Modules\$ModuleName"
+$RolePath   = "$ModulePath\RoleCapabilities"
+$ConfigPath = "C:\JEAConfig"
+
+# ---------------------------------------------------------------------
+# Create folders
+# ---------------------------------------------------------------------
+
+New-Item -ItemType Directory -Force -Path $RolePath | Out-Null
+New-Item -ItemType Directory -Force -Path $ConfigPath | Out-Null
+
+# ---------------------------------------------------------------------
+# Create Role Capability
+# ---------------------------------------------------------------------
+
+New-PSRoleCapabilityFile `
+    -Path "$RolePath\MailOperator.psrc" `
+    -Author "ASTERA\Administrator" `
+    -CompanyName "Astera" `
+    -Copyright "(c) Astera" `
+    -Description "Restricted JEA role for Mail Server" `
+    -VisibleCmdlets @(
+        "Get-Service",
+        "Get-Process",
+        "Get-Content",
+        "Test-Connection"
+    ) `
+    -VisibleFunctions @() `
+    -VisibleAliases @() `
+    -VisibleExternalCommands @()
+
+# ---------------------------------------------------------------------
+# Create Session Configuration
+# ---------------------------------------------------------------------
+
+New-PSSessionConfigurationFile `
+    -SessionType RestrictedRemoteServer `
+    -RunAsVirtualAccount `
+    -RoleDefinitions @{
+        "ASTERA\andrew.allen" = @{
+            RoleCapabilities = "MailOperator"
+        }
+    } `
+    -Path "$ConfigPath\MailEndpoint.pssc"
+
+# ---------------------------------------------------------------------
+# Register Endpoint
+# ---------------------------------------------------------------------
+
+Register-PSSessionConfiguration `
+    -Name "Mail-JEA" `
+    -Path "$ConfigPath\MailEndpoint.pssc" `
+    -Force
+
+# ---------------------------------------------------------------------
+# Restart WinRM
+# ---------------------------------------------------------------------
+
+Restart-Service WinRM
+
+Write-Host ""
+Write-Host "========================================="
+Write-Host "Mail-JEA endpoint created successfully."
+Write-Host "========================================="
+Write-Host ""
+
+Write-Host "Connect using:"
+Write-Host "Enter-PSSession -ComputerName MAIL -ConfigurationName Mail-JEA"
