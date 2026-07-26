@@ -135,3 +135,13 @@ WHERE pe.permission_name = 'IMPERSONATE';
 
 GO
 
+SELECT
+    pr.name,
+    pe.permission_name,
+    pe.state_desc
+FROM sys.server_permissions pe
+JOIN sys.server_principals pr
+    ON pe.grantee_principal_id = pr.principal_id
+WHERE pr.name = 'ASTERA-DEV\sql_adm';
+
+GO
