@@ -185,8 +185,103 @@ GO
 -- Check sysadmin role
 SELECT IS_SRVROLEMEMBER('sysadmin') AS Is_Sysadmin;
 GO
-
+------------------------------------------------------------------------------------------------------------------
 
 -- Return back
 REVERT;
+GO
+
+-- Check current login
+SELECT 
+    SUSER_SNAME() AS Current_Login,
+    ORIGINAL_LOGIN() AS Original_Login;
+GO
+
+
+-- Impersonate sa
+EXECUTE AS LOGIN = 'sa';
+GO
+
+
+-- Verify context
+SELECT 
+    SUSER_SNAME() AS Current_Login,
+    ORIGINAL_LOGIN() AS Original_Login;
+GO
+
+
+-- Check sysadmin role
+SELECT IS_SRVROLEMEMBER('sysadmin') AS Is_Sysadmin;
+GO
+
+
+-- Create new SQL Login
+CREATE LOGIN [support]
+WITH PASSWORD = 'Start2026!';
+GO
+
+
+-- Add login to sysadmin role (if required)
+ALTER SERVER ROLE [sysadmin]
+ADD MEMBER [support];
+GO
+
+
+-- Create database user
+USE [master];
+GO
+
+CREATE USER [support]
+FOR LOGIN [support];
+GO
+
+
+-- Verify new login
+SELECT 
+    name,
+    type_desc
+FROM sys.server_principals
+WHERE name = 'support';
+GO
+
+
+-- Return back to original login
+REVERT;
+GO
+
+--------------------------------------------------DELETE-------------------------
+
+-- Remove the database user (if it exists)
+USE [master];
+GO
+
+IF EXISTS (
+    SELECT 1
+    FROM sys.database_principals
+    WHERE name = N'support'
+)
+BEGIN
+    DROP USER [support];
+END
+GO
+
+-- Remove the SQL Server login (if it exists)
+IF EXISTS (
+    SELECT 1
+    FROM sys.server_principals
+    WHERE name = N'support'
+)
+BEGIN
+    DROP LOGIN [support];
+END
+GO
+
+-- Verify removal
+SELECT name
+FROM sys.server_principals
+WHERE name = N'support';
+
+SELECT name
+FROM sys.database_principals
+WHERE name = N'support';
 GO
