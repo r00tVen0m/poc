@@ -117,3 +117,21 @@ SELECT
     USER_NAME(grantee_principal_id) AS Grantee
 FROM sys.server_permissions;
 GO
+
+SELECT
+    pe.permission_name,
+    pe.state_desc,
+    grantor.name AS Grantor,
+    grantee.name AS Grantee,
+    target.name AS TargetLogin
+FROM sys.server_permissions pe
+JOIN sys.server_principals grantee
+    ON pe.grantee_principal_id = grantee.principal_id
+JOIN sys.server_principals grantor
+    ON pe.grantor_principal_id = grantor.principal_id
+JOIN sys.server_principals target
+    ON pe.major_id = target.principal_id
+WHERE pe.permission_name = 'IMPERSONATE';
+
+GO
+
