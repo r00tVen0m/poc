@@ -145,3 +145,21 @@ JOIN sys.server_principals pr
 WHERE pr.name = 'ASTERA-DEV\sql_adm';
 
 GO
+
+runas /netonly /user:ASTERA-DEV\svc_sql "C:\Program Files\Microsoft SQL Server Management Studio 21\Common7\IDE\Ssms.exe"
+
+SqlSrvqA2026#!
+
+SELECT SUSER_SNAME() AS BeforeLogin;
+GO
+
+EXECUTE AS LOGIN = 'ASTERA-DEV\sql_adm';
+GO
+
+SELECT SUSER_SNAME() AS AfterLogin;
+SELECT ORIGINAL_LOGIN() AS OriginalLogin;
+GO
+
+REVERT;
+GO
+
