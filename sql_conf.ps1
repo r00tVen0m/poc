@@ -163,3 +163,30 @@ GO
 REVERT;
 GO
 
+-- Check current login
+SELECT 
+    SUSER_SNAME() AS Current_Login,
+    ORIGINAL_LOGIN() AS Original_Login;
+GO
+
+
+-- Impersonate sa
+EXECUTE AS LOGIN = 'sa';
+GO
+
+
+-- Verify context
+SELECT 
+    SUSER_SNAME() AS Current_Login,
+    ORIGINAL_LOGIN() AS Original_Login;
+GO
+
+
+-- Check sysadmin role
+SELECT IS_SRVROLEMEMBER('sysadmin') AS Is_Sysadmin;
+GO
+
+
+-- Return back
+REVERT;
+GO
